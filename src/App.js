@@ -1,8 +1,11 @@
 import Routes from './routes/Routes'
+import TemplateDefault from './templates/Default'
 
 const App = () => {
   return ( 
-    <Routes />
+    <TemplateDefault>
+      <Routes />
+    </TemplateDefault>
   )
 }
 
