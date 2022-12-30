@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles'
+import classNames from 'classnames'
 
 import { 
   Card, 
@@ -22,11 +23,12 @@ const CustomerCard = ({
   lastname,
   email,
   avatar,
+  className
 }) => {
   const classes = useStyles()
 
   return (
-    <Card className={classes.root}>
+    <Card className={classNames(className, classes.root)}>
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" src={avatar}>
