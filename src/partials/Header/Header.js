@@ -16,6 +16,7 @@ import {
 import MenuIcon from '@material-ui/icons/Menu'
 import HomeIcon from '@material-ui/icons/Home'
 import GroupIcon from '@material-ui/icons/Group'
+import PersonAddIcon from '@material-ui/icons/PersonAdd'
 
 import useStyles from './Header.style'
 
@@ -65,6 +66,12 @@ const Header = () => {
             <ListItemText>Lista de Clientes</ListItemText>
           </ListItem>
 
+          <ListItem button onClick={() => handleMenuClick('/customers/add')}>
+            <ListItemIcon>
+              <PersonAddIcon />  
+            </ListItemIcon>
+            <ListItemText>Cadastro de Clientes</ListItemText>
+          </ListItem> 
         </List>
       </Drawer>
     </>
