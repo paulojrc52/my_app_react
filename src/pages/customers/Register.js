@@ -1,8 +1,11 @@
 import { useState } from "react"
 import axios from "axios"
-import { makeStyles } from "@material-ui/styles"
 
-import { Button, TextField } from "@material-ui/core" 
+import { makeStyles } from "@material-ui/styles"
+import { TextField } from "@material-ui/core" 
+
+import Toasty from "../../components/Toasty"
+import MyButton from "../../components/button/MyButton"
 
 const useStyles = makeStyles(theme =>({
   wrapper: {
@@ -23,6 +26,13 @@ const Register = () => {
       error: false,  
     },
   })
+
+  const [openToasty, setOpenToasty] = useState({
+    open:false,
+    text:'Cadastro Realizado com Sucesso!'
+  })
+
+  const [isLoadingButton, setIsLoadingButton] = useState(false)
 
   const handleInputChange = (event) => {
     const { name, value } = event.target
@@ -64,11 +74,31 @@ const Register = () => {
       return setForm(newFormState)
     }
 
+    setIsLoadingButton(true)
+
     axios.post('https://reqres.in/api/users', {
       name: form.name.value,
       job: form.job.value
-    }).then(response => {
-        console.log('ok', response)
+    }).then(() => {
+        let newStateToasty = {
+          ...openToasty,
+          open: true,
+        }
+
+        setOpenToasty(newStateToasty)
+
+        setForm({
+          name: {
+            value: '',
+            error: false
+          },  
+          job: {
+            value: '',
+            error: false
+          },  
+        })
+
+        setIsLoadingButton(false)
       })
   }
 
@@ -84,6 +114,7 @@ const Register = () => {
             onChange={handleInputChange} 
           />
         </div>
+
         <div className={classes.wrapper}>
           <TextField 
             error={form.job.error}
@@ -94,15 +125,26 @@ const Register = () => {
             onChange={handleInputChange} 
           />
         </div>
+
         <div className={classes.wrapper}>
-          <Button 
-            variant='contained' 
-            color="primary" 
+          <MyButton 
+            loading={isLoadingButton}
+            buttonText='Cadastrar'
+            formError={form.job.error && form.name.error ? true : false}
             onClick={handleRegisterButton}
-          >
-            Cadastrar
-          </Button>
+            isToasty={openToasty.open}
+          />
         </div>
+
+        <Toasty
+          open={openToasty.open} 
+          severity="success" 
+          onClose={() => setOpenToasty({
+            ...openToasty,
+            open: false,
+          })}  
+          text={openToasty.text} 
+        />
       </>
   )
 }
