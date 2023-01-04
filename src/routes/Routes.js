@@ -5,12 +5,16 @@ import TemplatePage from '../templates/Page'
 
 import CustomersList from '../pages/customers/List'
 import CustomersRegister from '../pages/customers/Register'
+import CustomersEdit from '../pages/customers/Edit'
 import Home from '../pages/Home'
 
 const Routes = () => {
   return(
     <Switch>
-        <Route path="/customers/add">
+      <Route path="/customers/edit/:id">
+        <TemplatePage title='Editar Cliente' Component={CustomersEdit} />
+      </Route>
+      <Route path="/customers/add">
         <TemplatePage title='Cadastro de Cliente' Component={CustomersRegister} />
       </Route>
       <Route path="/customers">
