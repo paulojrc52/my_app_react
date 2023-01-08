@@ -1,7 +1,10 @@
 import { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import { makeStyles, TextField } from '@material-ui/core'
 import { Typography } from '@material-ui/core'
+
 import MyButton from '../components/button/MyButton'
+import useAuth from '../state/auth'
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -11,11 +14,16 @@ const useStyles = makeStyles((theme) => ({
 
 const Login = () => {
   const classes = useStyles()
+  const history = useHistory()
 
   const [form, setForm] = useState({
     email:'',
     password:'',
   })
+
+  const [isLoading, setIsLoading] = useState(false)
+
+  const { user, setUser } = useAuth({})
 
   const handleInputChange = event => {
     const { name, value } = event.target
@@ -27,7 +35,16 @@ const Login = () => {
   }
 
   const handleFormSubmit = () => {
-    console.log(form)
+    setIsLoading(true)
+
+    setTimeout(() => {
+      setUser({
+        logged: true,
+        email: form.email,
+      })
+
+      history.push('/')
+    }, 3000)
   }
 
 
@@ -52,7 +69,11 @@ const Login = () => {
       </div>
 
       <div className={classes.wrapper}>
-        <MyButton buttonText='Entrar' onClick={handleFormSubmit}/>
+        <MyButton
+          buttonText='Entrar' 
+          onClick={handleFormSubmit}
+          loading={isLoading}
+        />
       </div>
     
     </>
